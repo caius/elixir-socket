@@ -227,7 +227,7 @@ defmodule Socket.Web do
 
     client = mod.connect!(address, port)
     client |> Socket.packet!(:raw)
-    client |> Socket.Stream.send! [
+    client |> Socket.Stream.send!([
       "GET #{path} HTTP/1.1", "\r\n",
       "Host: #{address}:#{port}", "\r\n",
       if(origin, do: ["Origin: #{origin}", "\r\n"], else: []),
@@ -237,7 +237,7 @@ defmodule Socket.Web do
       if(protocols, do: ["Sec-WebSocket-Protocol: #{Enum.join protocols, ", "}", "\r\n"], else: []),
       if(extensions, do: ["Sec-WebSocket-Extensions: #{Enum.join extensions, ", "}", "\r\n"], else: []),
       "Sec-WebSocket-Version: 13", "\r\n",
-      "\r\n"]
+      "\r\n"])
 
     client |> Socket.packet(:http_bin)
     { :http_response, _, 101, _ } = client |> Socket.Stream.recv!(options)
@@ -449,7 +449,7 @@ defmodule Socket.Web do
     protocol   = options[:protocol]
 
     socket |> Socket.packet!(:raw)
-    socket |> Socket.Stream.send! [
+    socket |> Socket.Stream.send!([
       "HTTP/1.1 101 Switching Protocols", "\r\n",
       "Upgrade: websocket", "\r\n",
       "Connection: Upgrade", "\r\n",
@@ -457,7 +457,7 @@ defmodule Socket.Web do
       "Sec-WebSocket-Version: 13", "\r\n",
       if(extensions, do: ["Sec-WebSocket-Extensions: ", Enum.join(extensions, ", "), "\r\n"], else: []),
       if(protocol, do: ["Sec-WebSocket-Protocol: ", protocol, "\r\n"], else: []),
-      "\r\n" ]
+      "\r\n" ])
   end
 
   @doc """
